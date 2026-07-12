@@ -1,6 +1,13 @@
 # Case Study: AI-Generated Landing Page → Production Quality
 
-![Case study page](screenshot.png)
+## Before ##
+<img width="1908" height="848" alt="image" src="https://github.com/user-attachments/assets/3369e973-e7c3-4593-9106-a7b78de72c8c" />
+
+## After ##
+<img width="1920" height="844" alt="image" src="https://github.com/user-attachments/assets/3ff93a45-217b-4ec9-a2fb-76175df9aefe" />
+
+
+
 
 A real, verifiable demonstration of my AI + human frontend workflow.
 I asked an AI tool to generate a complete SaaS landing page, measured it
