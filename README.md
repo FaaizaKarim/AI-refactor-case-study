@@ -51,9 +51,9 @@ to reproduce the results.
 
 ## Files
 
-- `index.html` — the written case study with before/after code
-- `ai-draft.html` — the untouched AI output
-- `refactored.html` — my production refactor
+- `index.html`  the written case study with before/after code
+- `ai-draft.html`  the untouched AI output
+- `refactored.html`  my production refactor
 
 **Live:** <add Vercel URL>
 
