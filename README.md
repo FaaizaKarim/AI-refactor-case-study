@@ -7,6 +7,15 @@
 <img width="1920" height="844" alt="image" src="https://github.com/user-attachments/assets/3ff93a45-217b-4ec9-a2fb-76175df9aefe" />
 
 
+## case study ##
+<img width="1920" height="727" alt="image" src="https://github.com/user-attachments/assets/c59e1daa-6d4f-45ab-9643-b579a12083b5" />
+<img width="1704" height="572" alt="image" src="https://github.com/user-attachments/assets/975db388-a85f-4bb9-82b1-bb422839cfdb" />
+<img width="1876" height="530" alt="image" src="https://github.com/user-attachments/assets/3800d2c8-4e12-4db8-90e5-84749e785635" />
+<img width="1846" height="462" alt="image" src="https://github.com/user-attachments/assets/e93689aa-437c-49f5-8a1e-648ffbb276f6" />
+<img width="1853" height="448" alt="image" src="https://github.com/user-attachments/assets/dccfa737-1190-4588-9c1f-8259d1852c84" />
+<img width="1847" height="502" alt="image" src="https://github.com/user-attachments/assets/ca18f848-75bf-4f6e-8062-4296ce826d29" />
+<img width="1890" height="717" alt="image" src="https://github.com/user-attachments/assets/eb5f56d7-7d53-45ba-9501-147f0de3a1b5" />
+
 
 
 A real, verifiable demonstration of my AI + human frontend workflow.
