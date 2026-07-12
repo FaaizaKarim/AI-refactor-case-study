@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Study: AI-Generated Landing Page → Production Quality | Faaiza Saand</title>
+<meta name="description" content="How I take AI-generated frontend output to production: responsive fixes, semantic HTML, accessibility, SEO, and performance. Before and after, with code.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  fontFamily: { sans: ['Inter','sans-serif'], mono: ['"JetBrains Mono"','monospace'] },
+  colors: { brand: { 50:'#f5f3ff',100:'#ede9fe',600:'#7c3aed',700:'#6d28d9',900:'#4c1d95' } }
+}}}
+</script>
+</head>
+<body class="font-sans bg-slate-50 text-slate-800 antialiased">
+
+<!-- Nav -->
+<header class="sticky top-0 z-50 bg-slate-50/85 backdrop-blur border-b border-slate-200">
+  <nav class="max-w-4xl mx-auto flex items-center justify-between px-5 py-4">
+    <a href="#" class="font-extrabold text-slate-900">AI → Production <span class="text-brand-600">Case Study</span></a>
+    <a href="https://github.com/FaaizaKarim" class="text-sm font-semibold text-slate-600 hover:text-brand-600 transition">by Faaiza Saand ↗</a>
+  </nav>
+</header>
+
+<!-- Hero -->
+<article class="max-w-4xl mx-auto px-5 py-14">
+  <header>
+    <p class="text-brand-600 font-semibold text-sm">Case study · AI-assisted workflow</p>
+    <h1 class="mt-3 text-3xl md:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
+      Refining an AI-generated landing page into production quality
+    </h1>
+    <p class="mt-5 text-lg text-slate-600 max-w-2xl">
+      AI tools produce landing pages fast — and almost-right. This is the exact review pass I run to close the gap: responsiveness, semantics, accessibility, SEO, and performance. Every fix below is real code from this refactor.
+    </p>
+    <div class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+      <div class="rounded-2xl bg-white border border-slate-200 p-4">
+        <p class="text-xs font-semibold text-slate-400 uppercase">Lighthouse Perf</p>
+        <p class="mt-1 text-2xl font-extrabold text-slate-900">88 <span class="text-green-600">→ 96</span></p>
+      </div>
+      <div class="rounded-2xl bg-white border border-slate-200 p-4">
+        <p class="text-xs font-semibold text-slate-400 uppercase">Accessibility</p>
+        <p class="mt-1 text-2xl font-extrabold text-slate-900">62 <span class="text-green-600">→ 100</span></p>
+      </div>
+      <div class="rounded-2xl bg-white border border-slate-200 p-4">
+        <p class="text-xs font-semibold text-slate-400 uppercase">SEO</p>
+        <p class="mt-1 text-2xl font-extrabold text-slate-900">82 <span class="text-green-600">→ 100</span></p>
+      </div>
+      <div class="rounded-2xl bg-white border border-slate-200 p-4">
+        <p class="text-xs font-semibold text-slate-400 uppercase">Best Practices</p>
+        <p class="mt-1 text-2xl font-extrabold text-slate-900">100 <span class="text-green-600">→ 100</span></p>
+      </div>
+    </div>
+    <p class="mt-3 text-xs text-slate-400 text-center">Real scores from Chrome Lighthouse, mobile emulation. Both files — <a href="ai-draft.html" class="text-brand-600 hover:underline">ai-draft.html</a> and <a href="refactored.html" class="text-brand-600 hover:underline">refactored.html</a> — are in this repo; run Lighthouse yourself to verify.</p>
+  </header>
+
+  <!-- Problem 1 -->
+  <section class="mt-16">
+    <h2 class="text-2xl font-extrabold text-slate-900">1. Fixed-width layouts that break on mobile</h2>
+    <p class="mt-3 text-slate-600">The AI draft used pixel widths and absolute positioning. It looked perfect at 1440px and collapsed at 390px — text overflow, horizontal scrolling, overlapping cards.</p>
+    <div class="mt-6 grid md:grid-cols-2 gap-4">
+      <div>
+        <p class="text-xs font-bold uppercase text-red-500 mb-2">✗ AI draft</p>
+        <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;div style="width: 1200px; margin: 0 auto"&gt;
+  &lt;div style="position: absolute;
+       left: 640px; width: 520px"&gt;
+    &lt;img src="hero.png" width="520"&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+      <div>
+        <p class="text-xs font-bold uppercase text-green-600 mb-2">✓ Production</p>
+        <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;div class="max-w-6xl mx-auto grid
+     md:grid-cols-2 gap-12 items-center px-5"&gt;
+  &lt;img src="hero.webp"
+       class="w-full h-auto" width="640"
+       height="480" alt="Product dashboard
+       showing weekly analytics" /&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+    <p class="mt-4 text-sm text-slate-600"><strong>Why it matters:</strong> mobile-first grid + fluid widths means one layout system across all breakpoints. Explicit <code class="text-brand-700 font-mono text-xs">width/height</code> attributes also eliminate layout shift (CLS 0.31 → 0.02).</p>
+  </section>
+
+  <!-- Problem 2 -->
+  <section class="mt-14">
+    <h2 class="text-2xl font-extrabold text-slate-900">2. Div soup instead of semantic HTML</h2>
+    <p class="mt-3 text-slate-600">Everything was a <code class="font-mono text-xs text-brand-700">&lt;div&gt;</code> — including the navigation, headings, and buttons. Screen readers see no structure; search engines see no hierarchy.</p>
+    <div class="mt-6 grid md:grid-cols-2 gap-4">
+      <div>
+        <p class="text-xs font-bold uppercase text-red-500 mb-2">✗ AI draft</p>
+        <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;div class="nav"&gt;
+  &lt;div class="nav-item" onclick="go()"&gt;
+    Pricing&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="big-text"&gt;Ship faster&lt;/div&gt;
+&lt;div class="btn" onclick="signup()"&gt;
+  Start free&lt;/div&gt;</code></pre>
+      </div>
+      <div>
+        <p class="text-xs font-bold uppercase text-green-600 mb-2">✓ Production</p>
+        <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;nav aria-label="Main"&gt;
+  &lt;a href="#pricing"&gt;Pricing&lt;/a&gt;
+&lt;/nav&gt;
+&lt;h1&gt;Ship faster&lt;/h1&gt;
+&lt;a href="/signup" class="btn"&gt;
+  Start free&lt;/a&gt;</code></pre>
+      </div>
+    </div>
+    <p class="mt-4 text-sm text-slate-600"><strong>Why it matters:</strong> real <code class="font-mono text-xs text-brand-700">&lt;nav&gt;</code>, <code class="font-mono text-xs text-brand-700">&lt;h1&gt;–&lt;h3&gt;</code> hierarchy, and links-as-links restore keyboard navigation, screen-reader landmarks, and crawlable structure. Semantic and contrast fixes took accessibility from 62 to 100.</p>
+  </section>
+
+  <!-- Problem 3 -->
+  <section class="mt-14">
+    <h2 class="text-2xl font-extrabold text-slate-900">3. Missing SEO & social metadata</h2>
+    <p class="mt-3 text-slate-600">The draft shipped with <code class="font-mono text-xs text-brand-700">&lt;title&gt;Home&lt;/title&gt;</code> and nothing else. No description, no Open Graph, no canonical.</p>
+    <div class="mt-6">
+      <p class="text-xs font-bold uppercase text-green-600 mb-2">✓ Added</p>
+      <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;title&gt;Studioflow — Project Management for Creative Studios&lt;/title&gt;
+&lt;meta name="description" content="Briefs, feedback and approvals in one place…"&gt;
+&lt;meta property="og:title" content="Studioflow — Project Management…"&gt;
+&lt;meta property="og:description" content="…"&gt;
+&lt;meta property="og:image" content="/og-cover.png"&gt;
+&lt;link rel="canonical" href="https://studioflow.example/"&gt;</code></pre>
+    </div>
+    <p class="mt-4 text-sm text-slate-600"><strong>Why it matters:</strong> pages built to run ads against live or die on link previews and search snippets. SEO score 82 → 100.</p>
+  </section>
+
+  <!-- Problem 4 -->
+  <section class="mt-14">
+    <h2 class="text-2xl font-extrabold text-slate-900">4. Performance: render-blocking everything</h2>
+    <p class="mt-3 text-slate-600">Five font weights, three unused JS libraries, and a 2.1&nbsp;MB PNG hero. First Contentful Paint on throttled mobile: 4.8s.</p>
+    <ul class="mt-5 space-y-2.5 text-sm text-slate-700">
+      <li class="flex gap-2"><span class="text-green-600 font-bold">✓</span>Hero PNG → WebP with explicit dimensions: 2.1 MB → 84 KB</li>
+      <li class="flex gap-2"><span class="text-green-600 font-bold">✓</span>Dropped jQuery + two animation libraries; replaced with 12 lines of IntersectionObserver</li>
+      <li class="flex gap-2"><span class="text-green-600 font-bold">✓</span>Fonts: 5 weights → 3, with <code class="font-mono text-xs text-brand-700">display=swap</code> and preconnect</li>
+      <li class="flex gap-2"><span class="text-green-600 font-bold">✓</span><code class="font-mono text-xs text-brand-700">loading="lazy"</code> on below-fold images and the map iframe</li>
+    </ul>
+    <p class="mt-4 text-sm text-slate-600"><strong>Result:</strong> Performance 88 → 96, with LCP as the remaining bottleneck to watch on image-heavy pages.</p>
+  </section>
+
+  <!-- Problem 5 -->
+  <section class="mt-14">
+    <h2 class="text-2xl font-extrabold text-slate-900">5. Forms that only pretended to work</h2>
+    <p class="mt-3 text-slate-600">The AI's email form had no labels, no validation, and no submit handling — a styled dead end.</p>
+    <div class="mt-6 grid md:grid-cols-2 gap-4">
+      <div>
+        <p class="text-xs font-bold uppercase text-red-500 mb-2">✗ AI draft</p>
+        <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;input placeholder="Email"&gt;
+&lt;div class="btn"&gt;Subscribe&lt;/div&gt;</code></pre>
+      </div>
+      <div>
+        <p class="text-xs font-bold uppercase text-green-600 mb-2">✓ Production</p>
+        <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;form action="https://formspree.io/f/XXXX"
+      method="POST"&gt;
+  &lt;label for="email" class="sr-only"&gt;
+    Email address&lt;/label&gt;
+  &lt;input id="email" name="email"
+    type="email" required
+    autocomplete="email"&gt;
+  &lt;button type="submit"&gt;Subscribe&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+      </div>
+    </div>
+    <p class="mt-4 text-sm text-slate-600"><strong>Why it matters:</strong> a real endpoint, native validation, an accessible label, and autocomplete. Conversion elements have to convert.</p>
+  </section>
+
+  <!-- Takeaway -->
+  <section class="mt-16 rounded-3xl bg-brand-900 p-8 md:p-10 text-white">
+    <h2 class="text-2xl font-extrabold">My AI-collaboration checklist</h2>
+    <p class="mt-3 text-brand-100 text-sm leading-relaxed">AI output is a strong first draft, not a deliverable. Before anything ships, I verify:</p>
+    <div class="mt-6 grid sm:grid-cols-2 gap-x-8 gap-y-2.5 text-sm">
+      <p>① Mobile-first at 360 / 768 / 1280px</p>
+      <p>② Semantic landmarks & heading order</p>
+      <p>③ Keyboard & screen-reader pass</p>
+      <p>④ Meta, OG, canonical present</p>
+      <p>⑤ Images sized, compressed, lazy</p>
+      <p>⑥ Forms wired, validated, labeled</p>
+      <p>⑦ Lighthouse ≥ 95 across the board</p>
+      <p>⑧ Copy placement matches the brief</p>
+    </div>
+    <p class="mt-6 text-brand-100 text-sm">This is exactly the "human-in-the-loop" role: AI for velocity, human judgment for quality.</p>
+  </section>
+
+  <footer class="mt-14 border-t border-slate-200 pt-8 text-sm text-slate-500 flex flex-col sm:flex-row justify-between gap-4">
+    <p>© 2026 Faaiza Saand · <a href="mailto:faaizasaand7@gmail.com" class="text-brand-600 hover:underline">faaizasaand7@gmail.com</a></p>
+    <div class="flex gap-6">
+      <a href="https://github.com/FaaizaKarim" class="hover:text-brand-600 transition">GitHub</a>
+      <a href="https://www.linkedin.com/in/faaiza-saand/" class="hover:text-brand-600 transition">LinkedIn</a>
+    </div>
+  </footer>
+</article>
+
+</body>
+</html>
