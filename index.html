@@ -59,29 +59,28 @@ tailwind.config = { theme: { extend: {
   <!-- Problem 1 -->
   <section class="mt-16">
     <h2 class="text-2xl font-extrabold text-slate-900">1. Fixed-width layouts that break on mobile</h2>
-    <p class="mt-3 text-slate-600">The AI draft used pixel widths and absolute positioning. It looked perfect at 1440px and collapsed at 390px — text overflow, horizontal scrolling, overlapping cards.</p>
+    <p class="mt-3 text-slate-600">The AI draft hard-coded <code class="font-mono text-xs text-brand-700">width: 1150px</code> on every section — navbar, hero, features, footer. It looked perfect at 1440px and forced horizontal scrolling on anything narrower than a laptop.</p>
     <div class="mt-6 grid md:grid-cols-2 gap-4">
       <div>
         <p class="text-xs font-bold uppercase text-red-500 mb-2">✗ AI draft</p>
-        <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;div style="width: 1200px; margin: 0 auto"&gt;
-  &lt;div style="position: absolute;
-       left: 640px; width: 520px"&gt;
-    &lt;img src="hero.png" width="520"&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
+        <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>.navbar { width: 1150px; margin: 0 auto; }
+.hero   { width: 1150px; display: flex; }
+.hero-left { width: 560px; }
+.hero-title { font-size: 56px; }
+.feature-card { width: 363px; }</code></pre>
       </div>
       <div>
         <p class="text-xs font-bold uppercase text-green-600 mb-2">✓ Production</p>
-        <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;div class="max-w-6xl mx-auto grid
-     md:grid-cols-2 gap-12 items-center px-5"&gt;
-  &lt;img src="hero.webp"
-       class="w-full h-auto" width="640"
-       height="480" alt="Product dashboard
-       showing weekly analytics" /&gt;
-&lt;/div&gt;</code></pre>
+        <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>.container { max-width: 1150px;
+  margin: 0 auto; padding: 0 20px; }
+.hero { display: flex;
+  flex-wrap: wrap; gap: 48px; }
+.hero-left { flex: 1 1 420px; }
+.hero-title {
+  font-size: clamp(32px, 6vw, 56px); }</code></pre>
       </div>
     </div>
-    <p class="mt-4 text-sm text-slate-600"><strong>Why it matters:</strong> mobile-first grid + fluid widths means one layout system across all breakpoints. Explicit <code class="text-brand-700 font-mono text-xs">width/height</code> attributes also eliminate layout shift (CLS 0.31 → 0.02).</p>
+    <p class="mt-4 text-sm text-slate-600"><strong>Why it matters:</strong> <code class="font-mono text-xs text-brand-700">max-width</code> + <code class="font-mono text-xs text-brand-700">flex-wrap</code> + <code class="font-mono text-xs text-brand-700">clamp()</code> gives one layout system that works from 360px to 4K — no per-breakpoint rewrites, no horizontal scroll.</p>
   </section>
 
   <!-- Problem 2 -->
@@ -91,22 +90,22 @@ tailwind.config = { theme: { extend: {
     <div class="mt-6 grid md:grid-cols-2 gap-4">
       <div>
         <p class="text-xs font-bold uppercase text-red-500 mb-2">✗ AI draft</p>
-        <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;div class="nav"&gt;
-  &lt;div class="nav-item" onclick="go()"&gt;
-    Pricing&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="big-text"&gt;Ship faster&lt;/div&gt;
-&lt;div class="btn" onclick="signup()"&gt;
-  Start free&lt;/div&gt;</code></pre>
+        <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;div class="nav-link"&gt;Pricing&lt;/div&gt;
+&lt;div class="hero-title"&gt;
+  Manage Projects…&lt;/div&gt;
+&lt;div class="btn-primary"
+  onclick="alert('Sign up
+  coming soon!')"&gt;
+  Start Free Trial&lt;/div&gt;</code></pre>
       </div>
       <div>
         <p class="text-xs font-bold uppercase text-green-600 mb-2">✓ Production</p>
-        <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;nav aria-label="Main"&gt;
+        <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;nav aria-label="Main navigation"&gt;
   &lt;a href="#pricing"&gt;Pricing&lt;/a&gt;
 &lt;/nav&gt;
-&lt;h1&gt;Ship faster&lt;/h1&gt;
-&lt;a href="/signup" class="btn"&gt;
-  Start free&lt;/a&gt;</code></pre>
+&lt;h1&gt;Manage Projects…&lt;/h1&gt;
+&lt;a href="#signup" class="btn-primary"&gt;
+  Start Free Trial&lt;/a&gt;</code></pre>
       </div>
     </div>
     <p class="mt-4 text-sm text-slate-600"><strong>Why it matters:</strong> real <code class="font-mono text-xs text-brand-700">&lt;nav&gt;</code>, <code class="font-mono text-xs text-brand-700">&lt;h1&gt;–&lt;h3&gt;</code> hierarchy, and links-as-links restore keyboard navigation, screen-reader landmarks, and crawlable structure. Semantic and contrast fixes took accessibility from 62 to 100.</p>
@@ -115,15 +114,15 @@ tailwind.config = { theme: { extend: {
   <!-- Problem 3 -->
   <section class="mt-14">
     <h2 class="text-2xl font-extrabold text-slate-900">3. Missing SEO & social metadata</h2>
-    <p class="mt-3 text-slate-600">The draft shipped with <code class="font-mono text-xs text-brand-700">&lt;title&gt;Home&lt;/title&gt;</code> and nothing else. No description, no Open Graph, no canonical.</p>
+    <p class="mt-3 text-slate-600">The draft shipped with <code class="font-mono text-xs text-brand-700">&lt;title&gt;Studioflow&lt;/title&gt;</code> and nothing else. No meta description, no Open Graph, no canonical — and no <code class="font-mono text-xs text-brand-700">lang</code> attribute on the html element.</p>
     <div class="mt-6">
       <p class="text-xs font-bold uppercase text-green-600 mb-2">✓ Added</p>
-      <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;title&gt;Studioflow — Project Management for Creative Studios&lt;/title&gt;
-&lt;meta name="description" content="Briefs, feedback and approvals in one place…"&gt;
-&lt;meta property="og:title" content="Studioflow — Project Management…"&gt;
-&lt;meta property="og:description" content="…"&gt;
-&lt;meta property="og:image" content="/og-cover.png"&gt;
-&lt;link rel="canonical" href="https://studioflow.example/"&gt;</code></pre>
+      <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;html lang="en"&gt;
+&lt;title&gt;Studioflow — Project Management for Creative Teams&lt;/title&gt;
+&lt;meta name="description" content="Studioflow is the all-in-one project management platform…"&gt;
+&lt;meta property="og:title" content="Studioflow — Project Management for Creative Teams"&gt;
+&lt;meta property="og:description" content="Boards, real-time collaboration, and analytics…"&gt;
+&lt;link rel="canonical" href="https://airefactorcasestudy.vercel.app/refactored.html"&gt;</code></pre>
     </div>
     <p class="mt-4 text-sm text-slate-600"><strong>Why it matters:</strong> pages built to run ads against live or die on link previews and search snippets. SEO score 82 → 100.</p>
   </section>
@@ -131,12 +130,12 @@ tailwind.config = { theme: { extend: {
   <!-- Problem 4 -->
   <section class="mt-14">
     <h2 class="text-2xl font-extrabold text-slate-900">4. Performance: render-blocking everything</h2>
-    <p class="mt-3 text-slate-600">Five font weights, three unused JS libraries, and a 2.1&nbsp;MB PNG hero. First Contentful Paint on throttled mobile: 4.8s.</p>
+    <p class="mt-3 text-slate-600">A render-blocking <code class="font-mono text-xs text-brand-700">@import</code> font with 4 weights, and three 2400×1600 images loaded at full resolution with no dimensions and no lazy loading.</p>
     <ul class="mt-5 space-y-2.5 text-sm text-slate-700">
-      <li class="flex gap-2"><span class="text-green-600 font-bold">✓</span>Hero PNG → WebP with explicit dimensions: 2.1 MB → 84 KB</li>
-      <li class="flex gap-2"><span class="text-green-600 font-bold">✓</span>Dropped jQuery + two animation libraries; replaced with 12 lines of IntersectionObserver</li>
-      <li class="flex gap-2"><span class="text-green-600 font-bold">✓</span>Fonts: 5 weights → 3, with <code class="font-mono text-xs text-brand-700">display=swap</code> and preconnect</li>
-      <li class="flex gap-2"><span class="text-green-600 font-bold">✓</span><code class="font-mono text-xs text-brand-700">loading="lazy"</code> on below-fold images and the map iframe</li>
+      <li class="flex gap-2"><span class="text-green-600 font-bold">✓</span>Images requested at 800×533 (their rendered size) with explicit <code class="font-mono text-xs text-brand-700">width/height</code> to prevent layout shift</li>
+      <li class="flex gap-2"><span class="text-green-600 font-bold">✓</span><code class="font-mono text-xs text-brand-700">fetchpriority="high"</code> on the hero image, <code class="font-mono text-xs text-brand-700">loading="lazy"</code> on everything below the fold</li>
+      <li class="flex gap-2"><span class="text-green-600 font-bold">✓</span>Font <code class="font-mono text-xs text-brand-700">@import</code> → <code class="font-mono text-xs text-brand-700">&lt;link&gt;</code> with preconnect and <code class="font-mono text-xs text-brand-700">display=swap</code>; 4 weights → 3</li>
+      <li class="flex gap-2"><span class="text-green-600 font-bold">✓</span>Descriptive <code class="font-mono text-xs text-brand-700">alt</code> text on every image (was empty)</li>
     </ul>
     <p class="mt-4 text-sm text-slate-600"><strong>Result:</strong> Performance 88 → 96, with LCP as the remaining bottleneck to watch on image-heavy pages.</p>
   </section>
@@ -148,19 +147,24 @@ tailwind.config = { theme: { extend: {
     <div class="mt-6 grid md:grid-cols-2 gap-4">
       <div>
         <p class="text-xs font-bold uppercase text-red-500 mb-2">✗ AI draft</p>
-        <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;input placeholder="Email"&gt;
-&lt;div class="btn"&gt;Subscribe&lt;/div&gt;</code></pre>
+        <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;input type="text" class="email-input"
+  placeholder="Enter your email"&gt;
+&lt;div class="btn-primary" onclick=
+  "alert('Thanks for signing up!')"&gt;
+  Sign Up Free&lt;/div&gt;</code></pre>
       </div>
       <div>
         <p class="text-xs font-bold uppercase text-green-600 mb-2">✓ Production</p>
-        <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;form action="https://formspree.io/f/XXXX"
-      method="POST"&gt;
-  &lt;label for="email" class="sr-only"&gt;
-    Email address&lt;/label&gt;
+        <pre class="rounded-xl bg-slate-900 text-slate-100 p-4 text-xs font-mono overflow-x-auto"><code>&lt;form class="signup-form"&gt;
+  &lt;label class="sr-only" for="email"&gt;
+    Work email&lt;/label&gt;
   &lt;input id="email" name="email"
     type="email" required
-    autocomplete="email"&gt;
-  &lt;button type="submit"&gt;Subscribe&lt;/button&gt;
+    autocomplete="email"
+    placeholder="Enter your work email"&gt;
+  &lt;button type="submit"
+    class="btn-primary"&gt;
+    Sign Up Free&lt;/button&gt;
 &lt;/form&gt;</code></pre>
       </div>
     </div>
