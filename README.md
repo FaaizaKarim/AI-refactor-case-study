@@ -71,7 +71,7 @@ to reproduce the results.
 - `ai-draft.html`  the untouched AI output
 - `refactored.html`  my production refactor
 
-**Live:** <add Vercel URL>
+**Live:** <https://ai-refactor-case-study-3bax.vercel.app/>
 
 By [Faaiza Saand](https://github.com/FaaizaKarim) ·
 [faaizasaand7@gmail.com](mailto:faaizasaand7@gmail.com)
